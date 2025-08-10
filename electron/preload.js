@@ -4,7 +4,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   toggleTheme: () => ipcRenderer.invoke('app:toggle-theme'),
   hideWindow: () => ipcRenderer.invoke('app:hide'),
   // Streaming API
-  stream: (text) => ipcRenderer.send('ai:stream', text),
+  stream: (payload) => ipcRenderer.send('ai:stream', payload),
   onChunk: (cb) => {
     const handler = (_e, chunk) => cb(chunk);
     ipcRenderer.on('ai:chunk', handler);

@@ -169,13 +169,21 @@ ipcMain.on('ai:clear', () => {
 });
 
 // Stream AI response with context
-ipcMain.on('ai:stream', async (event, text) => {
-  const userText = String(text || '');
+ipcMain.on('ai:stream', async (event, payload) => {
+  const isObject = payload && typeof payload === 'object';
+  const userText = String((isObject ? payload.text : payload) || '');
+  const systemInstruction = isObject && typeof payload.systemInstruction === 'string' && payload.systemInstruction.trim().length > 0
+    ? payload.systemInstruction.trim()
+    : '';
   if (!userText) return;
   try {
+    // Append user message
     conversationHistory.push({ role: 'user', parts: [{ text: userText }] });
     let assistantText = '';
-    await streamChat(conversationHistory, (delta) => {
+    const contents = systemInstruction
+      ? [{ role: 'user', parts: [{ text: systemInstruction }] }, ...conversationHistory]
+      : conversationHistory;
+    await streamChat(contents, (delta) => {
       if (typeof delta === 'string' && delta.length > 0) {
         assistantText += delta;
         event.sender.send('ai:chunk', delta);
