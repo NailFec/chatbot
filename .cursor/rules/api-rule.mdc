@@ -1,0 +1,11 @@
+---
+alwaysApply: false
+---
+
+# api rule
+
+- I have a variable called `GEMINI_API_KEY` in the environment variables.
+- The api usage for gemini is in the file `.nailfec/api-usage-for-gemini.ts`.
+- I have already done: `npm install @google/genai mime` and `npm install -D @types/node` in this project.
+
+END api rule

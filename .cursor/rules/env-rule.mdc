@@ -1,0 +1,17 @@
+---
+alwaysApply: true
+---
+
+# env rule
+
+- I am on Windows, so use "\\" for the path separator in the terminal.
+- I use PowerShell. Each time you open a new terminal, you should be in the correct directory of this project. So there is no need to cd to the correct directory.
+- If you want to run a command, you can do something like this: `cd abc ; pwd`.
+- If you want to run a command, just run it, without using `| cat`.
+- I use python in conda env called nyu.
+- If you want to check something, you can use terminal to check, like check the version of python. You can also update or install something in the terminal.
+- I am in China, so I use proxy with the default settings from Clash. Mostly I have configured the proxy in the terminal.
+
+If I want you to echo the following env rule, you should do it.
+
+END env rule

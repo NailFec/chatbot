@@ -1,0 +1,13 @@
+---
+alwaysApply: true
+---
+
+# code rule
+
+- Use English for the code, comments, documentation, strings, etc. Use English for markdown files. You can use Chinese to answer my questions, but never use Chinese in the code or markdown files.
+- Use less comments in the code, unless it is necessary.
+- Do not leave comments when making simple changes.
+- Obey this rule for markdown files: MD032/blanks-around-lists: Lists should be surrounded by blank lines.
+- NEVER use `git commit`. You are not allowed to commit code without my permission.
+
+END code rule
