@@ -8,25 +8,21 @@ function createGeminiClient() {
   return new GoogleGenAI({ apiKey });
 }
 
-async function generateStreamingText(promptText) {
+async function streamChat(contents, onDelta) {
   const client = createGeminiClient();
   const response = await client.models.generateContentStream({
     model: 'gemini-2.0-flash-lite',
     config: {},
-    contents: [
-      { role: 'user', parts: [{ text: promptText }] },
-    ],
+    contents,
   });
 
-  let text = '';
   for await (const chunk of response) {
-    if (chunk && typeof chunk.text === 'string') {
-      text += chunk.text;
+    if (chunk && typeof chunk.text === 'string' && chunk.text.length > 0) {
+      onDelta(chunk.text);
     }
   }
-  return text;
 }
 
-module.exports = { generateStreamingText };
+module.exports = { streamChat };
 
 

@@ -10,8 +10,15 @@ main#chat { flex: 1; padding: 12px; overflow: auto; display: flex; flex-directio
 .msg { padding: 10px 12px; border-radius: 10px; max-width: 80%; white-space: pre-wrap; }
 .user { align-self: flex-end; background: #3b82f6; color: #fff; }
 .bot { align-self: flex-start; background: #e5e7eb; color: #111; }
+.msg h1,.msg h2,.msg h3,.msg h4,.msg h5,.msg h6 { margin: 0.3em 0; }
+.msg p { margin: 0.4em 0; }
+.msg ul,.msg ol { margin: 0.4em 1.2em; padding-left: 1em; }
+.msg pre { background: rgba(0,0,0,0.08); padding: 8px; border-radius: 6px; overflow: auto; }
+.msg code { background: rgba(0,0,0,0.08); padding: 0 4px; border-radius: 4px; }
 @media (prefers-color-scheme: dark) {
   .bot { background: #222; color: #ddd; }
+  .msg pre { background: rgba(255,255,255,0.08); }
+  .msg code { background: rgba(255,255,255,0.08); }
 }
 footer { border-top: 1px solid rgba(0,0,0,0.1); padding: 8px; }
 form { display: flex; gap: 8px; }
