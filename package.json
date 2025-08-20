@@ -2,6 +2,7 @@
   "name": "chatbot-desktop",
   "version": "0.1.2",
   "description": "Hotkey-toggled Gemini chatbot for Windows (Electron)",
+  "author": "NailFec",
   "main": "electron/main.js",
   "private": true,
   "scripts": {
@@ -10,6 +11,7 @@
   },
   "dependencies": {
     "@google/genai": "^1.13.0",
+    "marked": "^16.2.0",
     "mime": "^4.0.7"
   },
   "devDependencies": {

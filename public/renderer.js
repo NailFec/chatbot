@@ -70,125 +70,25 @@ function escapeHtml(text) {
     .replace(/'/g, '&#39;');
 }
 
-function renderInline(text) {
-  // Handle inline code first using backtick toggling
-  const segments = text.split('`');
-  let out = '';
-  for (let i = 0; i < segments.length; i++) {
-    const seg = segments[i];
-    if (i % 2 === 1) {
-      out += `<code>${escapeHtml(seg)}</code>`;
-    } else {
-      let s = escapeHtml(seg);
-      // Bold then italic
-      s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-      s = s.replace(/\*(?!\*)([^*]+)\*/g, '<em>$1</em>');
-      out += s;
-    }
-  }
-  return out;
-}
+// renderInline function removed - no longer needed with marked library
 
+// Use marked library for reliable markdown rendering
 function renderMarkdown(md) {
-  const lines = String(md || '').replace(/\r\n/g, '\n').split('\n');
-  let html = '';
-  let inCode = false;
-  let codeBuffer = [];
-  let inList = false;
-  let listType = 'ul';
-  let inParagraph = false;
-  let paraBuffer = [];
-
-  function closeParagraph() {
-    if (inParagraph) {
-      html += `<p>${paraBuffer.join('<br/>')}</p>`;
-      inParagraph = false;
-      paraBuffer = [];
-    }
+  try {
+    // Configure marked options for better rendering
+    const options = {
+      breaks: true,
+      gfm: true,    // GitHub Flavored Markdown
+      headerIds: false, // Disable header IDs for security
+      mangle: false,    // Disable mangling for security
+    };
+    
+    // marked is available globally from the CDN
+    return marked.parse(String(md || ''), options);
+  } catch (error) {
+    console.error('Markdown rendering error:', error);
+    return escapeHtml(String(md || ''));
   }
-
-  function closeList() {
-    if (inList) {
-      html += listType === 'ol' ? '</ol>' : '</ul>';
-      inList = false;
-    }
-  }
-
-  function openList(type) {
-    if (!inList || listType !== type) {
-      closeParagraph();
-      closeList();
-      listType = type;
-      html += type === 'ol' ? '<ol>' : '<ul>';
-      inList = true;
-    }
-  }
-
-  for (const rawLine of lines) {
-    const line = rawLine.replace(/\t/g, '    ');
-
-    if (inCode) {
-      if (/^```/.test(line)) {
-        html += `<pre><code>${escapeHtml(codeBuffer.join('\n'))}</code></pre>`;
-        inCode = false;
-        codeBuffer = [];
-        continue;
-      }
-      codeBuffer.push(line);
-      continue;
-    }
-
-    if (/^```/.test(line)) {
-      closeParagraph();
-      closeList();
-      inCode = true;
-      codeBuffer = [];
-      continue;
-    }
-
-    if (/^\s*$/.test(line)) {
-      closeParagraph();
-      closeList();
-      continue;
-    }
-
-    const heading = line.match(/^(#{1,6})\s+(.*)$/);
-    if (heading) {
-      closeParagraph();
-      closeList();
-      const level = heading[1].length;
-      html += `<h${level}>${renderInline(heading[2])}</h${level}>`;
-      continue;
-    }
-
-    const ul = line.match(/^\s*[-*]\s+(.*)$/);
-    if (ul) {
-      openList('ul');
-      html += `<li>${renderInline(ul[1])}</li>`;
-      continue;
-    }
-
-    const ol = line.match(/^\s*\d+\.\s+(.*)$/);
-    if (ol) {
-      openList('ol');
-      html += `<li>${renderInline(ol[1])}</li>`;
-      continue;
-    }
-
-    // Paragraph text line
-    if (!inParagraph) {
-      inParagraph = true;
-      paraBuffer = [];
-    }
-    paraBuffer.push(renderInline(line));
-  }
-
-  if (inCode) {
-    html += `<pre><code>${escapeHtml(codeBuffer.join('\n'))}</code></pre>`;
-  }
-  closeParagraph();
-  closeList();
-  return html;
 }
 
 function addMessage(text, role) {
