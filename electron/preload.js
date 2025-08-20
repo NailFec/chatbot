@@ -1,6 +1,7 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electronAPI', {
+  getVersion: () => ipcRenderer.invoke('app:get-version'),
   toggleTheme: () => ipcRenderer.invoke('app:toggle-theme'),
   hideWindow: () => ipcRenderer.invoke('app:hide'),
   // Streaming API

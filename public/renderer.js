@@ -4,6 +4,7 @@ const input = document.getElementById('input');
 const directiveChip = document.getElementById('directive-chip');
 const themeBtn = document.getElementById('theme');
 const closeBtn = document.getElementById('close');
+const versionEl = document.getElementById('version');
 
 function applyInputDirectives(raw) {
   let remaining = String(raw || '').trim();
@@ -151,6 +152,44 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const { electronAPI } = window;
   if (!electronAPI) return;
+
+  // Initialize version display with retry mechanism
+  const initVersion = async () => {
+    try {
+      if (electronAPI && typeof electronAPI.getVersion === 'function') {
+        const version = await electronAPI.getVersion();
+        console.log('Got version:', version);
+        if (version) {
+          versionEl.textContent = `v${version}`;
+          return true;
+        }
+      }
+    } catch (error) {
+      console.log('Version error:', error);
+    }
+    return false;
+  };
+
+  // Try immediately, then retry if needed
+  initVersion().then(success => {
+    if (!success) {
+      console.log('Version not ready, retrying...');
+      // Retry after a short delay
+      setTimeout(() => {
+        initVersion().then(success2 => {
+          if (!success2) {
+            console.log('Version still not ready, final retry...');
+            // Final retry after longer delay
+            setTimeout(() => initVersion(), 100);
+          }
+        });
+      }, 50);
+    }
+  });
+
+  // Debug: show what's available
+  console.log('Electron API available:', !!electronAPI);
+  console.log('Electron API methods:', Object.keys(electronAPI || {}));
 
   electronAPI.onUIClear(() => {
     clearUI();

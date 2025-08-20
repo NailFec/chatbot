@@ -1,6 +1,6 @@
 {
   "name": "chatbot-desktop",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Hotkey-toggled Gemini chatbot for Windows (Electron)",
   "author": "NailFec",
   "main": "electron/main.js",

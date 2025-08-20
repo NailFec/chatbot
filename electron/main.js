@@ -2,6 +2,9 @@ const { app, BrowserWindow, globalShortcut, ipcMain, nativeTheme, Tray, Menu, na
 const { streamChat } = require('./ai');
 const path = require('path');
 
+// Read package.json for version info
+const packageJson = require('../package.json');
+
 let mainWindow = null;
 let isQuitting = false;
 let tray = null;
@@ -146,6 +149,10 @@ app.on('before-quit', () => {
 
 app.on('will-quit', () => {
   globalShortcut.unregisterAll();
+});
+
+ipcMain.handle('app:get-version', () => {
+  return packageJson.version;
 });
 
 ipcMain.handle('app:toggle-theme', () => {

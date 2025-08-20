@@ -4,6 +4,16 @@ html, body { height: 100%; margin: 0; font-family: system-ui, Arial, sans-serif;
 #app { display: flex; flex-direction: column; height: 100%; }
 header { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 1px solid rgba(0,0,0,0.1); }
 header h1 { font-size: 16px; margin: 0; }
+header .version { 
+  font-size: 11px; 
+  font-weight: 500; 
+  color: rgba(0,0,0,0.6); 
+  background: rgba(0,0,0,0.06); 
+  padding: 2px 6px; 
+  border-radius: 4px; 
+  letter-spacing: 0.5px; 
+  text-transform: uppercase; 
+}
 header .spacer { flex: 1; }
 header button { border: 1px solid rgba(0,0,0,0.2); background: transparent; padding: 4px 8px; border-radius: 6px; cursor: pointer; }
 main#chat { flex: 1; padding: 12px; overflow: auto; display: flex; flex-direction: column; gap: 12px; }
@@ -29,6 +39,10 @@ main#chat { flex: 1; padding: 12px; overflow: auto; display: flex; flex-directio
   .msg blockquote { border-left-color: rgba(255,255,255,0.3); color: rgba(255,255,255,0.7); }
   .msg th { background: rgba(255,255,255,0.08); }
   .msg th,.msg td { border-color: rgba(255,255,255,0.2); }
+  header .version { 
+    color: rgba(255,255,255,0.6); 
+    background: rgba(255,255,255,0.08); 
+  }
 }
 footer { border-top: 1px solid rgba(0,0,0,0.1); padding: 8px; }
 form { display: flex; gap: 8px; align-items: flex-start; }
